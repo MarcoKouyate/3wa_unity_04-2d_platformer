@@ -12,6 +12,7 @@ namespace Dwarf {
         [SerializeField] private float _jumpInterval;
         [SerializeField] LayerMask _groundLayers;
         [SerializeField] Transform _groundCheck;
+        [SerializeField] private int _jumpCount;
 
 
         private void Awake()
@@ -19,6 +20,7 @@ namespace Dwarf {
             _rigidbody = GetComponent<Rigidbody2D>();
             _movement = Vector2.zero;
             _isJumping = false;
+            _remainingJumps = _jumpCount;
         }
 
         private void Update()
@@ -29,12 +31,18 @@ namespace Dwarf {
         }
 
         private bool IsGrounded() {
-            return Physics2D.OverlapCircle(_groundCheck.position, 0.2f, _groundLayers);
+            return Physics2D.Raycast(transform.position, Vector2.down, 1f, _groundLayers);
+        }
+
+        private void OnDrawGizmos()
+        {
+            Gizmos.color = Color.cyan;
+            Gizmos.DrawRay(transform.position, Vector2.down);
         }
 
         private void FixedUpdate()
         {
-            Debug.Log($"{_movement}");
+
             _movement.y = _rigidbody.velocity.y + _jump;
             _jump = 0;
             _rigidbody.velocity = _movement;
@@ -64,23 +72,29 @@ namespace Dwarf {
         }
         private void JumpInput()
         {
-            if (_isGrounded && Input.GetButtonDown("Jump"))
-            {
+            if(_remainingJumps > 1 && Input.GetButtonDown("Jump")){
                 _animation.Jump();
                 _isJumping = true;
-                _jumpTime = Time.time + _jumpInterval;
+                _jumpTime = (_isGrounded) ? Time.time + _jumpInterval : Time.time;
             }
 
             if (_isJumping && Time.time > _jumpTime)
             {
                 _isJumping = false;
+                _remainingJumps--;
                 _jump = _jumpHeight;
+            }
+
+            if (_isGrounded && !_isJumping)
+            {
+                _remainingJumps = _jumpCount;
             }
         }
 
+        private int _remainingJumps;
         private bool _isGrounded;
-        private float _jumpTime;
         private bool _isJumping;
+        private float _jumpTime;
         private float _jump;
         private Rigidbody2D _rigidbody;
         private Vector2 _movement;
