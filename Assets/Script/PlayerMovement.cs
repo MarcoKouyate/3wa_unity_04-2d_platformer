@@ -23,29 +23,9 @@ namespace Dwarf {
 
         private void Update()
         {
-            bool isGrounded = IsGrounded();
-            _animation.IsGrounded(isGrounded);
-
-            if (isGrounded && Input.GetButtonDown("Jump"))
-            {
-                _animation.Jump();
-                _isJumping = true;
-                _jumpTime = Time.time + _jumpInterval;
-            }
-
-            if(_isJumping && Time.time > _jumpTime)
-            {
-                _isJumping = false;
-                _jump = _jumpHeight;
-            }
-
-
-
-            Vector2 input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-
-            float inputMagnitude = Mathf.Clamp01(input.magnitude);
-            input.Normalize();
-            _movement = new Vector2(input.x * _speed, 0) * inputMagnitude;
+            DetectGround();
+            JumpInput();
+            MovementInput();
         }
 
         private bool IsGrounded() {
@@ -54,6 +34,7 @@ namespace Dwarf {
 
         private void FixedUpdate()
         {
+            Debug.Log($"{_movement}");
             _movement.y = _rigidbody.velocity.y + _jump;
             _jump = 0;
             _rigidbody.velocity = _movement;
@@ -62,12 +43,42 @@ namespace Dwarf {
             _animation.SetHorizontalSpeed(_rigidbody.velocity.x);
         }
 
-        private void Jump()
+        private void MovementInput()
         {
+            Vector2 input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
 
-            
+            float inputMagnitude = Mathf.Clamp01(input.magnitude);
+            input.Normalize();
+            _movement = Vector2.right * input.x * _speed * inputMagnitude;
+
+            if (input.x * transform.right.x < 0)
+            {
+                transform.Rotate(Vector2.up * 180);
+            }
         }
 
+        private void DetectGround()
+        {
+            _isGrounded = IsGrounded();
+            _animation.IsGrounded(_isGrounded);
+        }
+        private void JumpInput()
+        {
+            if (_isGrounded && Input.GetButtonDown("Jump"))
+            {
+                _animation.Jump();
+                _isJumping = true;
+                _jumpTime = Time.time + _jumpInterval;
+            }
+
+            if (_isJumping && Time.time > _jumpTime)
+            {
+                _isJumping = false;
+                _jump = _jumpHeight;
+            }
+        }
+
+        private bool _isGrounded;
         private float _jumpTime;
         private bool _isJumping;
         private float _jump;

@@ -158,6 +158,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0576872b4d4990442bdf32cd860c7209, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  runningSpeed: 1
 --- !u!1 &260089756
 GameObject:
   m_ObjectHideFlags: 0
@@ -193,6 +194,12 @@ Transform:
 --- !u!1 &488369019 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1950162914640172934, guid: 469a5acf925c0a44c870f7879f2f628b,
+    type: 3}
+  m_PrefabInstance: {fileID: 4349607788649655761}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &488369020 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4348865307811151053, guid: 469a5acf925c0a44c870f7879f2f628b,
     type: 3}
   m_PrefabInstance: {fileID: 4349607788649655761}
   m_PrefabAsset: {fileID: 0}
@@ -235,8 +242,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _animation: {fileID: 257121647}
-  speed: 1
-  jumpHeight: 1
+  _speed: 3
+  _jumpHeight: 10
+  _jumpInterval: 0.3
+  _groundLayers:
+    serializedVersion: 2
+    m_Bits: 512
+  _groundCheck: {fileID: 1786503892}
 --- !u!50 &488369023
 Rigidbody2D:
   serializedVersion: 4
@@ -351,7 +363,7 @@ GameObject:
   m_Component:
   - component: {fileID: 665432157}
   - component: {fileID: 665432158}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -514,7 +526,7 @@ GameObject:
   - component: {fileID: 1288455064}
   - component: {fileID: 1288455065}
   - component: {fileID: 1288455066}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: dungeon_floor_tile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -529,8 +541,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1288455063}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.05, y: -3.43, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0.015, y: -3.43, z: 0}
+  m_LocalScale: {x: 0.99999994, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1908124299}
   m_RootOrder: 0
@@ -579,7 +591,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 2
-  m_Size: {x: 13.279357, y: 3.0224452}
+  m_Size: {x: 13.210158, y: 3.0224452}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -603,7 +615,7 @@ BoxCollider2D:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
     oldSize: {x: 1.53, y: 3.05}
-    newSize: {x: 13.279357, y: 3.0224452}
+    newSize: {x: 13.210158, y: 3.0224452}
     adaptiveTilingThreshold: 0.5
     drawMode: 2
     adaptiveTiling: 0
@@ -692,6 +704,36 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1786503891
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1786503892}
+  m_Layer: 0
+  m_Name: GroundCheck
+  m_TagString: Untagged
+  m_Icon: {fileID: 7250588514170254948, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1786503892
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1786503891}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 488369020}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1908124298
 GameObject:
   m_ObjectHideFlags: 0
