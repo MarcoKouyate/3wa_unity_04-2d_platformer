@@ -22,7 +22,7 @@ namespace Dwarf {
 
         public override void Update()
         {
-            if (Time.time > _jumpTime && _playerMovement.IsGrounded())
+            if (Time.time > _jumpTime && _playerMovement.IsGrounded)
             {
                 _playerMovement.SetJumpState(new RecoveryJumpState(_playerMovement));
             }

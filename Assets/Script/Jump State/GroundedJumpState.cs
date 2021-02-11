@@ -5,11 +5,14 @@ using UnityEngine;
 namespace Dwarf {
     public class GroundedJumpState : JumpState
     {
+        #region Constructor
         public GroundedJumpState(PlayerMovement playerMovement) : base(playerMovement)
         {
 
         }
+        #endregion
 
+        #region Inherited Methods
         public override void Init()
         {
             _playerMovement.jumpState = JumpStateEnum.Grounded;
@@ -24,5 +27,6 @@ namespace Dwarf {
                 _playerMovement.SetJumpState(new PrepareJumpJumpState(_playerMovement));
             }
         }
+        #endregion
     }
 }

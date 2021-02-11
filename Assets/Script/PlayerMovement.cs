@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace Dwarf {
-
     [RequireComponent(typeof(Rigidbody2D))]
     public class PlayerMovement : MonoBehaviour
     {
@@ -14,6 +13,7 @@ namespace Dwarf {
         [SerializeField] private float _recoveryDuration;
         [SerializeField] LayerMask _groundLayers;
         [SerializeField] private int _jumpCount;
+        [SerializeField] private GroundChecker _groundCheck;
 
         public JumpStateEnum jumpState;
 
@@ -22,6 +22,7 @@ namespace Dwarf {
         public float JumpHeight { get => _jumpHeight; }
         public float ImpulseDuration { get => _impulseDuration; }
         public float RecoveryDuration { get => _recoveryDuration; }
+        public bool IsGrounded { get => _groundCheck.IsGrounded(); }
 
         public Vector2 Velocity { 
             get => _rigidbody.velocity;
@@ -38,13 +39,14 @@ namespace Dwarf {
         private void Awake()
         {
             _rigidbody = GetComponent<Rigidbody2D>();
+            _groundChecker = GetComponent<GroundChecker>();
             _movement = Vector2.zero;
             SetJumpState(new GroundedJumpState(this));
         }
 
         private void Update()
         {
-            _animation.IsGrounded(IsGrounded());
+            _animation.IsGrounded(IsGrounded);
             _movementState.Update();
         }
 
@@ -67,13 +69,6 @@ namespace Dwarf {
         }
 
 
-
-        public bool IsGrounded()
-        {
-            return Physics2D.Raycast(transform.position, Vector2.down, 0.1f, _groundLayers);
-        }
-
-
         public void Move()
         {
             Vector2 input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
@@ -86,8 +81,8 @@ namespace Dwarf {
         }
 
         private Rigidbody2D _rigidbody;
+        private GroundChecker _groundChecker;
         private Vector2 _movement;
-
         private JumpState _movementState;
     }
 }

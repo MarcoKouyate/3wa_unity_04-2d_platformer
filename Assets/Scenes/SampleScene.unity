@@ -244,12 +244,14 @@ MonoBehaviour:
   _animation: {fileID: 257121647}
   _speed: 5
   _jumpHeight: 7
-  _jumpInterval: 0.3
+  _impulseDuration: 0.1
+  _recoveryDuration: 0.1
   _groundLayers:
     serializedVersion: 2
     m_Bits: 512
-  _groundCheck: {fileID: 1786503892}
-  _jumpCount: 2
+  _jumpCount: 5
+  _groundCheck: {fileID: 1786503893}
+  jumpState: 0
 --- !u!50 &488369023
 Rigidbody2D:
   serializedVersion: 4
@@ -535,6 +537,36 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1134989479
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1134989480}
+  m_Layer: 0
+  m_Name: BottomRightCheck
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1134989480
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1134989479}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1, y: -1, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1786503892}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1288455063
 GameObject:
   m_ObjectHideFlags: 0
@@ -643,6 +675,36 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 13.4, y: 3.05}
   m_EdgeRadius: 0
+--- !u!1 &1496647297
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1496647298}
+  m_Layer: 0
+  m_Name: TopLeftCheck
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1496647298
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1496647297}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1, y: 1, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1786503892}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1650327706
 GameObject:
   m_ObjectHideFlags: 0
@@ -733,6 +795,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1786503892}
+  - component: {fileID: 1786503893}
   m_Layer: 0
   m_Name: GroundCheck
   m_TagString: Untagged
@@ -749,11 +812,31 @@ Transform:
   m_GameObject: {fileID: 1786503891}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_LocalScale: {x: 1, y: 0.2, z: 1}
+  m_Children:
+  - {fileID: 1496647298}
+  - {fileID: 1134989480}
   m_Father: {fileID: 488369020}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1786503893
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1786503891}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2e744a51dd908449a705f804ce77049, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _topLeft: {fileID: 1496647298}
+  _bottomRight: {fileID: 1134989480}
+  _whatIsGround:
+    serializedVersion: 2
+    m_Bits: 512
+  _gizmosColor: {r: 0.08627448, g: 0.972549, b: 0.09006254, a: 1}
 --- !u!1 &1908124298
 GameObject:
   m_ObjectHideFlags: 0
@@ -808,6 +891,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Dwarf
+      objectReference: {fileID: 0}
+    - target: {fileID: 1950162914640172934, guid: 469a5acf925c0a44c870f7879f2f628b,
+        type: 3}
+      propertyPath: m_TagString
+      value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 4348865307811151053, guid: 469a5acf925c0a44c870f7879f2f628b,
         type: 3}
