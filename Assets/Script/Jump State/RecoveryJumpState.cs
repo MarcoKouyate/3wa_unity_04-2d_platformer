@@ -6,7 +6,7 @@ namespace Dwarf {
     public class RecoveryJumpState : JumpState
     {
         #region Constructor
-        public RecoveryJumpState(PlayerMovement playerMovement) : base(playerMovement)
+        public RecoveryJumpState(PlayerJump playerJump) : base(playerJump)
         {
 
         }
@@ -15,15 +15,16 @@ namespace Dwarf {
         #region Inherited Methods
         public override void Init()
         {
-            _recoveryTime = Time.time + _playerMovement.RecoveryDuration;
-            _playerMovement.jumpState = JumpStateEnum.Recovery;
+            _recoveryTime = Time.time + _playerJump.RecoveryDuration;
+            _playerJump.jumpState = JumpStateEnum.Recovery;
+            _playerJump.LockMovement(true);
         }
 
         public override void Update()
         {
             if(Time.time > _recoveryTime)
             {
-                _playerMovement.SetJumpState(new GroundedJumpState(_playerMovement));
+                _playerJump.SetJumpState(new GroundedJumpState(_playerJump));
             }
         }
         #endregion

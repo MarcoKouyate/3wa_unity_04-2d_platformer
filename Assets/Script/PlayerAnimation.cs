@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Dwarf {
     [RequireComponent(typeof(Animator))] 
-    public class PlayerAnimationController : MonoBehaviour
+    public class PlayerAnimation : MonoBehaviour
     {
         [SerializeField] private float runningSpeed;
 

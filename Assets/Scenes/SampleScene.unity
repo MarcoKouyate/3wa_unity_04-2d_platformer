@@ -290,15 +290,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _animation: {fileID: 257121647}
   _speed: 7
-  _jumpHeight: 7
-  _impulseDuration: 0.1
-  _recoveryDuration: 0.1
-  _groundLayers:
-    serializedVersion: 2
-    m_Bits: 512
-  _jumpCount: 2
-  _groundCheck: {fileID: 1786503893}
-  jumpState: 0
+  moveState: 0
 --- !u!50 &488369023
 Rigidbody2D:
   serializedVersion: 4
@@ -339,6 +331,25 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &488369025
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 488369019}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e82d72d387e868d49bfc43f83411dc41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _animation: {fileID: 0}
+  _jumpHeight: 0
+  _impulseDuration: 0
+  _recoveryDuration: 0
+  _jumpCount: 0
+  _groundCheck: {fileID: 0}
+  jumpState: 0
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0

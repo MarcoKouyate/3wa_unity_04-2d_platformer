@@ -5,34 +5,33 @@ using UnityEngine;
 namespace Dwarf {
     public class AirJumpState : JumpState
     {
-        public AirJumpState(PlayerMovement playerMovement) : base(playerMovement)
+        public AirJumpState(PlayerJump playerJump) : base(playerJump)
         {
 
         }
 
         public override void Init()
         {
-            _playerMovement.jumpState = JumpStateEnum.Jump;
-            _remainingJumps = _playerMovement.JumpCount;
-            _jumpHeight = _playerMovement.JumpHeight;
-            _jumpTime = Time.time + _playerMovement.ImpulseDuration;
+            _playerJump.jumpState = JumpStateEnum.Jump;
+            _remainingJumps = _playerJump.JumpCount;
+            _jumpHeight = _playerJump.JumpHeight;
+            _jumpTime = Time.time + _playerJump.ImpulseDuration;
 
             _isJumping = true;
+            _playerJump.LockMovement(false);
         }
 
         public override void Update()
         {
-            if (Time.time > _jumpTime && _playerMovement.IsGrounded)
+            if (Time.time > _jumpTime && _playerJump.IsGrounded)
             {
-                _playerMovement.SetJumpState(new RecoveryJumpState(_playerMovement));
+                _playerJump.SetJumpState(new RecoveryJumpState(_playerJump));
             }
 
             if (_remainingJumps > 0 && Input.GetButtonDown("Jump"))
             {
                 _isJumping = true;
             }
-
-            _playerMovement.Move();
         }
 
         public override void FixedUpdate()
@@ -45,9 +44,9 @@ namespace Dwarf {
 
         private void Jump()
         {
-            Vector2 velocity = _playerMovement.Velocity;
+            Vector2 velocity = _playerJump.Velocity;
             velocity.y = _jumpHeight;
-            _playerMovement.Velocity = velocity;
+            _playerJump.Velocity = velocity;
             _isJumping = false;
             _remainingJumps--;
         }

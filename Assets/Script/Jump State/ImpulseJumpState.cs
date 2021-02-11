@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace Dwarf {
-    public class PrepareJumpJumpState : JumpState
+    public class ImpulseJumpState : JumpState
     {
         #region Constructor
-        public PrepareJumpJumpState(PlayerMovement playerMovement) : base(playerMovement)
+        public ImpulseJumpState(PlayerJump playerJump) : base(playerJump)
         {
 
         }
@@ -15,17 +15,18 @@ namespace Dwarf {
         #region Inherited Methods
         public override void Init()
         {
-            _playerMovement.Animation.Jump();
-            _jumpTime = Time.time + _playerMovement.ImpulseDuration;
-            _playerMovement.jumpState = JumpStateEnum.Impulse;
+            _playerJump.Animation.Jump();
+            _jumpTime = Time.time + _playerJump.ImpulseDuration;
+            _playerJump.jumpState = JumpStateEnum.Impulse;
+            _playerJump.LockMovement(true);
         }
 
         public override void Update()
         {
             if(Time.time > _jumpTime)
             {
-                _playerMovement.SetJumpState(new AirJumpState(_playerMovement));
-;           }
+                _playerJump.SetJumpState(new AirJumpState(_playerJump));
+            }
         }
         #endregion
 

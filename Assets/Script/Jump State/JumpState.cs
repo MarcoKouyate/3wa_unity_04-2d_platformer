@@ -7,9 +7,9 @@ namespace Dwarf {
     public enum JumpStateEnum { Grounded, Impulse, Jump, Recovery }
     public abstract class JumpState 
     {
-        public JumpState(PlayerMovement playerMovement)
+        public JumpState(PlayerJump playerJump)
         {
-            _playerMovement = playerMovement;
+            _playerJump = playerJump;
         }
 
         public virtual void Init()
@@ -27,6 +27,6 @@ namespace Dwarf {
 
         }
 
-        protected PlayerMovement _playerMovement;
+        protected PlayerJump _playerJump;
     }
 }

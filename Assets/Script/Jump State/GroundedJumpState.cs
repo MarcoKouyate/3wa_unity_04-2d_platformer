@@ -6,7 +6,7 @@ namespace Dwarf {
     public class GroundedJumpState : JumpState
     {
         #region Constructor
-        public GroundedJumpState(PlayerMovement playerMovement) : base(playerMovement)
+        public GroundedJumpState(PlayerJump playerJump) : base(playerJump)
         {
 
         }
@@ -15,16 +15,15 @@ namespace Dwarf {
         #region Inherited Methods
         public override void Init()
         {
-            _playerMovement.jumpState = JumpStateEnum.Grounded;
+            _playerJump.jumpState = JumpStateEnum.Grounded;
+            _playerJump.LockMovement(false);
         }
 
         public override void Update()
         {
-            _playerMovement.Move();
-
             if (Input.GetButtonDown("Jump"))
             {
-                _playerMovement.SetJumpState(new PrepareJumpJumpState(_playerMovement));
+                _playerJump.SetJumpState(new ImpulseJumpState(_playerJump));
             }
         }
         #endregion

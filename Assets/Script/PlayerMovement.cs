@@ -6,83 +6,63 @@ namespace Dwarf {
     [RequireComponent(typeof(Rigidbody2D))]
     public class PlayerMovement : MonoBehaviour
     {
-        [SerializeField] private PlayerAnimationController _animation;
+        #region Show in inspector
         [SerializeField] private float _speed;
-        [SerializeField] private float _jumpHeight;
-        [SerializeField] private float _impulseDuration;
-        [SerializeField] private float _recoveryDuration;
-        [SerializeField] LayerMask _groundLayers;
-        [SerializeField] private int _jumpCount;
-        [SerializeField] private GroundChecker _groundCheck;
+        [SerializeField] private PlayerAnimation _animation;
+        public MoveStateEnum moveState;
+        #endregion
 
-        public JumpStateEnum jumpState;
-
-        public PlayerAnimationController Animation { get => _animation; }
-        public int JumpCount { get => _jumpCount; }
-        public float JumpHeight { get => _jumpHeight; }
-        public float ImpulseDuration { get => _impulseDuration; }
-        public float RecoveryDuration { get => _recoveryDuration; }
-        public bool IsGrounded { get => _groundCheck.IsGrounded(); }
+        #region Properties
+        public float Speed { get => _speed; }
 
         public Vector2 Velocity { 
             get => _rigidbody.velocity;
             set => _rigidbody.velocity = value;
         }
+        #endregion
 
-
-        public void SetJumpState(JumpState state)
+        #region State Machine
+        public void SetMoveState(MoveState state)
         {
-            _movementState = state;
+            _moveState = state;
             state.Init();
         }
+        #endregion
 
+        #region Unity Cycle
         private void Awake()
         {
             _rigidbody = GetComponent<Rigidbody2D>();
-            _groundChecker = GetComponent<GroundChecker>();
-            _movement = Vector2.zero;
-            SetJumpState(new GroundedJumpState(this));
+            SetMoveState(new MovingState(this));
         }
 
         private void Update()
         {
-            _animation.IsGrounded(IsGrounded);
-            _movementState.Update();
+            _moveState.Update();
         }
 
         private void FixedUpdate()
         {
-
-            _movement.y = _rigidbody.velocity.y;
-            _rigidbody.velocity = _movement;
-            _movement = Vector2.zero;
-            _movementState.FixedUpdate();
-
+            _moveState.FixedUpdate();
             _animation.SetVerticalSpeed(_rigidbody.velocity.y);
             _animation.SetHorizontalSpeed(_rigidbody.velocity.x);
         }
+        #endregion
 
-        private void OnDrawGizmos()
+        public void LockMovement(bool isLock)
         {
-            Gizmos.color = Color.cyan;
-            Gizmos.DrawRay(transform.position, Vector2.down);
-        }
-
-
-        public void Move()
-        {
-            Vector2 input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-            _movement = Vector2.right * input.x * _speed;
-
-            if (input.x * transform.right.x < 0)
+            if(isLock)
             {
-                transform.Rotate(Vector2.up * 180);
+                SetMoveState(new StillMoveState(this));
+            } else
+            {
+                SetMoveState(new MovingState(this));
             }
         }
 
+        #region Private variables
         private Rigidbody2D _rigidbody;
-        private GroundChecker _groundChecker;
-        private Vector2 _movement;
-        private JumpState _movementState;
+        private MoveState _moveState;
+        #endregion
     }
 }
