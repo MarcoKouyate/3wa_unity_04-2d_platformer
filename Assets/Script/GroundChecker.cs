@@ -33,7 +33,13 @@ namespace Dwarf
 
         private void CheckGround()
         {
-            _isGrounded = Physics2D.OverlapArea(_topLeft.position, _bottomRight.position, _whatIsGround) != null;
+            Collider2D collider = GetGround();
+            _isGrounded = collider != null;
+        }
+
+        public Collider2D GetGround()
+        {
+            return Physics2D.OverlapArea(_topLeft.position, _bottomRight.position, _whatIsGround);
         }
 
         #endregion

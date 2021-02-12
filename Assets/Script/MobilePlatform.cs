@@ -23,9 +23,8 @@ namespace Dwarf {
 
         private void FixedUpdate()
         {
-            Vector2 direction = (_targetPosition - (Vector2)_rigidbody.position);
-            Vector2 newPosition = _rigidbody.position + direction.normalized * Time.fixedDeltaTime * _speed;
-            _rigidbody.MovePosition(newPosition);
+            Vector2 direction = (_targetPosition - (Vector2) transform.position);
+            transform.position = (Vector2)transform.position + direction.normalized * Time.fixedDeltaTime * _speed;
 
             if (direction.sqrMagnitude <= _threshold * _threshold)
             {
