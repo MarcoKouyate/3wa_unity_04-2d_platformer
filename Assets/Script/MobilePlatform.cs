@@ -14,6 +14,7 @@ namespace Dwarf {
             if (_targets.Length > 0)
             {
                 transform.position = _targets[0].position;
+                _targetPosition = GetNextTarget().position;
             }
         }
 
@@ -67,7 +68,7 @@ namespace Dwarf {
             return _targets[_index];
         }
 
-        public bool _changeDirection;
+        public bool _changeDirection = false;
         private Vector2 _targetPosition;
         private int _index;
     }

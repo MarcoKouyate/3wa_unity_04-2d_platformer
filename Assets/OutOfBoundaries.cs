@@ -5,11 +5,13 @@ using UnityEngine;
 namespace Dwarf {
     public class OutOfBoundaries : MonoBehaviour
     {
+        [SerializeField] private LevelManager _levelManager;
+
         private void OnTriggerExit2D(Collider2D other)
         {
             if (other.CompareTag("Player"))
             {
-                Debug.Log("You died");
+                _levelManager.Lose();
             }
         }
     }
