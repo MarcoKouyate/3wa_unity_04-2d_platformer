@@ -5,6 +5,13 @@ using UnityEngine;
 namespace Dwarf {
     public class LevelManager : MonoBehaviour
     {
+        [SerializeField] private IntVariable _beerCount;
+
+        private void Awake()
+        {
+            _beerCount.count = 0;
+        }
+
         private void Start()
         {
             _playerTransform = GameObject.FindGameObjectWithTag("Player").transform;

@@ -1,12 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Dwarf {
     public class FallingHingeJoint : MonoBehaviour
     {
         #region Show in Inspector
-        [SerializeField] private FallingHingeJoint _selfPrebab;
+
         [SerializeField] private float _timeBeforeBreak;
         [SerializeField] private float _timeBeforeRespawn;
         #endregion
@@ -82,7 +80,6 @@ namespace Dwarf {
 
         private void Respawn()
         {
-
             foreach (Transform child in transform)
             {
                 if (child.CompareTag("Player"))
@@ -91,11 +88,10 @@ namespace Dwarf {
                 }
             }
 
-            FallingHingeJoint instantiated = Instantiate(_selfPrebab, _startPosition, _startRotation, transform.parent);
-            instantiated.SetBreakTime(_timeBeforeBreak);
-            instantiated.SetRespawnTime(_timeBeforeRespawn);
-            instantiated.Lock();
-            Destroy(gameObject);
+            transform.position = _startPosition;
+            transform.rotation = _startRotation;
+            _shouldFall = false;
+            Lock();
         }
         #endregion
 
